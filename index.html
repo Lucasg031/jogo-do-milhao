@@ -390,14 +390,12 @@
         grid-template-columns: 1fr;
       }
     }
-    
-
-#menu:not(.active),
-#result:not(.active) {
-    display: none;
-}
-
-</style>
+    /* Exibe apenas a tela ativa. */
+    #menu:not(.active),
+    #result:not(.active) {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div id="menu" class="screen active">
@@ -730,15 +728,54 @@ async function traduzirPerguntas(perguntas) {
         }
     }
 
-    await Promise.all([
-        trabalhador(),
-        trabalhador(),
-        trabalhador()
-    ]);
+    await trabalhador();
 
     return resultado;
 }
 
+
+    // Perguntas prontas em português para usar quando uma API falhar.
+    // Formato: [enunciado, correta, errada 1, errada 2, errada 3].
+    const perguntasReserva = [
+      ["Qual é a capital do Brasil?", "Brasília", "São Paulo", "Salvador", "Rio de Janeiro"],
+      ["Qual é o maior planeta do Sistema Solar?", "Júpiter", "Marte", "Terra", "Saturno"],
+      ["Qual é a capital da Argentina?", "Buenos Aires", "Córdoba", "Montevidéu", "Rosário"],
+      ["Qual é o símbolo químico do ouro?", "Au", "Ag", "Fe", "O"],
+      ["Qual é o maior oceano da Terra?", "Pacífico", "Atlântico", "Índico", "Ártico"],
+      ["Quem escreveu Dom Casmurro?", "Machado de Assis", "Jorge Amado", "José de Alencar", "Clarice Lispector"],
+      ["Qual é a raiz quadrada de 144?", "12", "10", "14", "16"],
+      ["Em qual continente fica o Egito?", "África", "Europa", "América", "Oceania"],
+      ["Em que ano o Brasil declarou sua independência?", "1822", "1808", "1889", "1500"],
+      ["Quem pintou a Mona Lisa?", "Leonardo da Vinci", "Pablo Picasso", "Claude Monet", "Vincent van Gogh"],
+      ["Qual é a unidade de resistência elétrica?", "Ohm", "Volt", "Watt", "Ampere"],
+      ["Quem formulou as três leis do movimento?", "Isaac Newton", "Albert Einstein", "Galileu Galilei", "Nikola Tesla"],
+      ["Qual é a capital do Japão?", "Tóquio", "Osaka", "Quioto", "Hiroshima"],
+      ["Qual elemento químico tem número atômico 1?", "Hidrogênio", "Oxigênio", "Hélio", "Carbono"],
+      ["Qual é o menor número primo?", "2", "1", "0", "3"],
+      ["Em que ano ocorreu a queda do Muro de Berlim?", "1989", "1991", "1975", "2001"],
+      ["Qual é a capital do Canadá?", "Ottawa", "Toronto", "Montreal", "Vancouver"],
+      ["Quem escreveu A Divina Comédia?", "Dante Alighieri", "Homero", "William Shakespeare", "Virgílio"],
+      ["Qual é a unidade de frequência no Sistema Internacional?", "Hertz", "Newton", "Pascal", "Joule"],
+      ["Qual civilização construiu Machu Picchu?", "Inca", "Maia", "Asteca", "Romana"],
+      ["Qual é a capital da Islândia?", "Reiquiavique", "Helsinque", "Oslo", "Estocolmo"],
+      ["Qual é o símbolo químico do ferro?", "Fe", "F", "Fr", "Fi"],
+      ["Qual autor escreveu O Pequeno Príncipe?", "Antoine de Saint-Exupéry", "Victor Hugo", "Júlio Verne", "Émile Zola"],
+      ["Qual é o valor de 8 multiplicado por 12?", "96", "88", "92", "108"]
+    ];
+
+    function carregarPerguntasReserva() {
+      const sorteadas = [...perguntasReserva].sort(() => Math.random() - 0.5);
+      return sorteadas.slice(0, 16).map(([question, correctAnswer, ...erradas]) => ({
+        question,
+        correctAnswer,
+        answers: [...erradas, correctAnswer].sort(() => Math.random() - 0.5),
+        difficulty: "medium",
+        image: `https://picsum.photos/seed/${Math.random()}/800/450`
+      }));
+    }
+
+    // Evita insistir em traduções após o serviço começar a recusá-las.
+    let apiFalhouNestaSessao = false;
 
     async function loadQuestionsForDifficulty(level) {
       const response = await fetch(API_URL);
@@ -796,6 +833,9 @@ async function traduzirPerguntas(perguntas) {
         });
       }
 
+      if (selected.length < 16) {
+        throw new Error("A API não forneceu 16 perguntas diferentes");
+      }
       return await traduzirPerguntas(selected.slice(0, 16));
     }
 
@@ -871,7 +911,17 @@ async function traduzirPerguntas(perguntas) {
     async function startGame() {
       clearTimer();
       try {
-        state.questions = await loadQuestionsForDifficulty(state.selectedDifficulty);
+        if (apiFalhouNestaSessao) {
+          state.questions = carregarPerguntasReserva();
+        } else {
+          try {
+            state.questions = await loadQuestionsForDifficulty(state.selectedDifficulty);
+          } catch (erroAPI) {
+            console.warn("APIs indisponíveis; usando perguntas em português:", erroAPI);
+            apiFalhouNestaSessao = true;
+            state.questions = carregarPerguntasReserva();
+          }
+        }
         state.currentIndex = 0;
         state.safePrize = 0;
         state.currentPrize = 0;
@@ -881,6 +931,7 @@ async function traduzirPerguntas(perguntas) {
         renderQuestion();
         startTimer();
       } catch (error) {
+        console.error("Erro ao iniciar o jogo:", error);
         showResultScreen(
           "Erro ao carregar perguntas",
           "Não foi possível carregar as perguntas no momento. Tente novamente.",
