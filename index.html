@@ -140,6 +140,129 @@
       border-color: transparent;
     }
 
+    .settings-section {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .settings-section h3 {
+      margin: 0 0 10px;
+    }
+
+    .settings-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+      padding: 11px 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .settings-option input {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      accent-color: var(--primary);
+    }
+
+    html.large-text {
+      font-size: 112.5%;
+    }
+
+    body.high-contrast {
+      background: #000;
+      color: #fff;
+      --text: #fff;
+      --muted: #fff;
+      --accent: #ffeb3b;
+    }
+
+    body.high-contrast .screen,
+    body.high-contrast .menu-box,
+    body.high-contrast .question-area,
+    body.high-contrast .side-panel,
+    body.high-contrast .result-box,
+    body.high-contrast .answer-btn,
+    body.high-contrast .difficulty-btn,
+    body.high-contrast .chip,
+    body.high-contrast .audience-result,
+    body.high-contrast .value-item,
+    body.high-contrast .settings-option,
+    body.high-contrast #settings-modal > div {
+      background: #000 !important;
+      color: #fff !important;
+      border-color: #fff !important;
+    }
+
+    body.high-contrast #menu,
+    body.high-contrast #game,
+    body.high-contrast #result {
+      background: #000 !important;
+    }
+
+    body.high-contrast .answer-btn .letter {
+      background: #000;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+
+    body.high-contrast .answer-btn.correct {
+      border-color: #00ff80 !important;
+    }
+
+    body.high-contrast .difficulty-btn.active {
+      background: #fff !important;
+      color: #000 !important;
+      border-color: #fff !important;
+    }
+
+    body.high-contrast .answer-btn.wrong,
+    body.high-contrast #quit-btn {
+      border-color: #ff6b6b !important;
+    }
+
+    body.high-contrast .lifeline-btn,
+    body.high-contrast .secondary-btn {
+      background: #000;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+
+    body.high-contrast .primary-btn {
+      background: #00549f;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+
+    body.high-contrast #quit-btn {
+      background: #000;
+      color: #fff;
+      border: 2px solid #ff6b6b;
+    }
+
+    body.high-contrast #timer,
+    body.high-contrast .value-item.current,
+    body.high-contrast .final-prize {
+      color: #ffeb3b !important;
+    }
+
+    body.reduce-motion *,
+    body.reduce-motion *::before,
+    body.reduce-motion *::after {
+      animation: none !important;
+      scroll-behavior: auto !important;
+      transition: none !important;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
     #game {
       padding: 28px 24px 24px;
       background: linear-gradient(180deg, #0d1d2e, #102947);
@@ -168,6 +291,18 @@
       background: rgba(255,212,59,0.12);
       color: var(--accent);
       border: 1px solid rgba(255,212,59,0.4);
+    }
+
+    .sound-toggle {
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text);
+    }
+
+    .sound-toggle[aria-pressed="true"] {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .round-panel {
@@ -218,6 +353,10 @@
       align-items: center;
       gap: 12px;
       position: relative;
+    }
+
+    .answer-btn[hidden] {
+      display: none;
     }
 
     .answer-btn .letter {
@@ -294,8 +433,82 @@
 
     .actions {
       display: flex;
-      justify-content: flex-end;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
       margin-top: 18px;
+    }
+
+    .lifeline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .lifeline-btn {
+      background: rgba(29,155,240,0.14);
+      border: 1px solid rgba(29,155,240,0.45);
+      color: #d8efff;
+    }
+
+    .lifeline-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .audience-result {
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .audience-result[hidden] {
+      display: none;
+    }
+
+    .audience-result h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    .audience-votes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+    }
+
+    .audience-vote {
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr) 42px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .audience-vote-letter,
+    .audience-vote-value {
+      font-weight: 700;
+    }
+
+    .audience-vote-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .audience-vote-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--primary);
+    }
+
+    .audience-vote-value {
+      color: var(--accent);
+      text-align: right;
+      font-size: 0.9rem;
     }
 
     #quit-btn {
@@ -390,6 +603,11 @@
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 480px) {
+      .audience-votes {
+        grid-template-columns: 1fr;
+      }
+    }
     /* Exibe apenas a tela ativa. */
     #menu:not(.active),
     #result:not(.active) {
@@ -415,6 +633,7 @@
     <div class="topbar">
       <div id="round-info" class="chip">Pergunta 1 de 16</div>
       <div id="money-display" class="chip">R$ 0,00</div>
+      <button id="sound-toggle" class="chip sound-toggle" type="button" aria-pressed="false" aria-label="Alternar som">Som: desligado</button>
       <div id="timer" class="chip">60</div>
     </div>
 
@@ -425,8 +644,13 @@
         <div id="answers" class="answers"></div>
 
         <div class="actions">
+          <div class="lifeline-actions">
+            <button id="fifty-fifty-btn" class="small-btn lifeline-btn" type="button">50:50</button>
+            <button id="audience-btn" class="small-btn lifeline-btn" type="button">Consultar plateia</button>
+          </div>
           <button id="quit-btn" class="small-btn">Desistir</button>
         </div>
+        <div id="audience-result" class="audience-result" role="status" aria-live="polite" hidden></div>
       </div>
 
       <aside class="side-panel">
@@ -469,7 +693,18 @@
       timer: 60,
       timerId: null,
       locked: false,
-      highScore: 0
+      highScore: 0,
+      soundEnabled: false,
+      audioContext: null,
+      accessibility: {
+        highContrast: false,
+        largeText: false,
+        reduceMotion: false
+      },
+      aidsUsed: {
+        fiftyFifty: false,
+        audience: false
+      }
     };
 
     const screens = {
@@ -485,11 +720,15 @@
       questionImage: document.getElementById("question-image"),
       questionText: document.getElementById("question-text"),
       answers: document.getElementById("answers"),
+      fiftyFiftyBtn: document.getElementById("fifty-fifty-btn"),
+      audienceBtn: document.getElementById("audience-btn"),
+      audienceResult: document.getElementById("audience-result"),
       valueList: document.getElementById("value-list"),
       resultTitle: document.getElementById("result-title"),
       resultMessage: document.getElementById("result-message"),
       finalPrize: document.getElementById("final-prize"),
       moneyRain: document.getElementById("money-rain"),
+      soundToggle: document.getElementById("sound-toggle"),
       startBtn: document.getElementById("start-btn"),
       recordBtn: document.getElementById("record-btn"),
       settingsBtn: document.getElementById("settings-btn"),
@@ -534,6 +773,101 @@
       });
     }
 
+    function createSettingsToggle(labelText, checked, onChange) {
+      const label = document.createElement("label");
+      label.className = "settings-option";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = checked;
+      checkbox.addEventListener("change", () => onChange(checkbox.checked, checkbox));
+
+      const text = document.createElement("span");
+      text.textContent = labelText;
+
+      label.append(checkbox, text);
+      return label;
+    }
+
+    function applyAccessibilitySettings() {
+      document.body.classList.toggle("high-contrast", state.accessibility.highContrast);
+      document.documentElement.classList.toggle("large-text", state.accessibility.largeText);
+      document.body.classList.toggle("reduce-motion", state.accessibility.reduceMotion);
+    }
+
+    function updateSoundToggle() {
+      elements.soundToggle.textContent = `Som: ${state.soundEnabled ? "ligado" : "desligado"}`;
+      elements.soundToggle.setAttribute("aria-pressed", String(state.soundEnabled));
+    }
+
+    function setSoundEnabled(enabled, checkbox = null) {
+      if (!enabled) {
+        state.soundEnabled = false;
+        updateSoundToggle();
+        if (state.audioContext && state.audioContext.state === "running") {
+          state.audioContext.suspend().catch((error) => {
+            console.error("Não foi possível suspender os efeitos sonoros:", error);
+          });
+        }
+        return;
+      }
+
+      const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextConstructor) {
+        if (checkbox) checkbox.checked = false;
+        state.soundEnabled = false;
+        updateSoundToggle();
+        console.error("Este navegador não oferece suporte a efeitos sonoros.");
+        return;
+      }
+
+      if (!state.audioContext) {
+        try {
+          state.audioContext = new AudioContextConstructor();
+        } catch (error) {
+          if (checkbox) checkbox.checked = false;
+          state.soundEnabled = false;
+          updateSoundToggle();
+          console.error("Não foi possível iniciar os efeitos sonoros:", error);
+          return;
+        }
+      }
+      state.soundEnabled = true;
+      updateSoundToggle();
+
+      if (state.audioContext.state === "suspended") {
+        state.audioContext.resume().catch((error) => {
+          console.error("Não foi possível ativar os efeitos sonoros:", error);
+        });
+      }
+    }
+
+    function playAnswerSound(correct) {
+      if (!state.soundEnabled || !state.audioContext) return;
+
+      const context = state.audioContext;
+      context.resume().then(() => {
+        const frequencies = correct ? [659.25, 783.99, 987.77] : [220, 164.81];
+        frequencies.forEach((frequency, index) => {
+          const oscillator = context.createOscillator();
+          const gain = context.createGain();
+          const startTime = context.currentTime + index * 0.12;
+
+          oscillator.type = correct ? "sine" : "triangle";
+          oscillator.frequency.setValueAtTime(frequency, startTime);
+          gain.gain.setValueAtTime(0.0001, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.08, startTime + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.18);
+          oscillator.connect(gain);
+          gain.connect(context.destination);
+          oscillator.start(startTime);
+          oscillator.stop(startTime + 0.19);
+        });
+      }).catch((error) => {
+        console.error("Não foi possível reproduzir o efeito sonoro:", error);
+      });
+    }
+
     function buildSettingsModal() {
       const existing = document.getElementById("settings-modal");
       if (existing) return;
@@ -548,9 +882,14 @@
       modal.style.justifyContent = "center";
       modal.style.zIndex = "30";
       modal.style.padding = "20px";
+      modal.setAttribute("role", "dialog");
+      modal.setAttribute("aria-modal", "true");
+      modal.setAttribute("aria-labelledby", "settings-title");
 
       const card = document.createElement("div");
       card.style.width = "min(520px, 100%)";
+      card.style.maxHeight = "calc(100vh - 40px)";
+      card.style.overflowY = "auto";
       card.style.background = "#12263d";
       card.style.borderRadius = "22px";
       card.style.boxShadow = "0 14px 40px rgba(0,0,0,0.35)";
@@ -558,9 +897,14 @@
       card.style.border = "1px solid rgba(255,255,255,0.1)";
 
       const title = document.createElement("h2");
-      title.textContent = "Escolha a dificuldade";
+      title.id = "settings-title";
+      title.textContent = "Configurações";
       title.style.margin = "0 0 20px";
       title.style.textAlign = "center";
+
+      const difficultyTitle = document.createElement("h3");
+      difficultyTitle.textContent = "Dificuldade";
+      difficultyTitle.style.margin = "0 0 10px";
 
       const grid = document.createElement("div");
       grid.className = "difficulty-grid";
@@ -589,6 +933,35 @@
         grid.appendChild(btn);
       });
 
+      const soundSection = document.createElement("section");
+      soundSection.className = "settings-section";
+      const soundTitle = document.createElement("h3");
+      soundTitle.textContent = "Som";
+      soundSection.append(
+        soundTitle,
+        createSettingsToggle("Efeitos sonoros", state.soundEnabled, setSoundEnabled)
+      );
+
+      const accessibilitySection = document.createElement("section");
+      accessibilitySection.className = "settings-section";
+      const accessibilityTitle = document.createElement("h3");
+      accessibilityTitle.textContent = "Acessibilidade";
+      accessibilitySection.append(
+        accessibilityTitle,
+        createSettingsToggle("Alto contraste", state.accessibility.highContrast, (enabled) => {
+          state.accessibility.highContrast = enabled;
+          applyAccessibilitySettings();
+        }),
+        createSettingsToggle("Texto maior", state.accessibility.largeText, (enabled) => {
+          state.accessibility.largeText = enabled;
+          applyAccessibilitySettings();
+        }),
+        createSettingsToggle("Reduzir animações", state.accessibility.reduceMotion, (enabled) => {
+          state.accessibility.reduceMotion = enabled;
+          applyAccessibilitySettings();
+        })
+      );
+
       const closeBtn = document.createElement("button");
       closeBtn.type = "button";
       closeBtn.className = "secondary-btn";
@@ -597,18 +970,89 @@
       closeBtn.style.width = "100%";
       closeBtn.addEventListener("click", closeSettingsModal);
 
-      card.append(title, grid, closeBtn);
+      card.append(title, difficultyTitle, grid, soundSection, accessibilitySection, closeBtn);
       modal.appendChild(card);
+      modal.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeSettingsModal();
+          return;
+        }
+        if (event.key !== "Tab") return;
+
+        const focusable = [...modal.querySelectorAll("button:not(:disabled), input:not(:disabled)")];
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
       document.body.appendChild(modal);
+      closeBtn.focus();
     }
 
     function closeSettingsModal() {
       const modal = document.getElementById("settings-modal");
-      if (modal) modal.remove();
+      if (modal) {
+        modal.remove();
+        elements.settingsBtn.focus();
+      }
     }
 
     function openSettings() {
       buildSettingsModal();
+    }
+
+    function gerarImagemPergunta(texto) {
+      const textoNormalizado = texto
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+      const temas = [
+        { palavras: ["planeta", "sistema solar", "estrela", "galaxia", "universo", "jupiter", "saturno", "marte"], nome: "Astronomia", icone: "🪐", cor: "#6558e8" },
+        { palavras: ["quimica", "elemento", "atomo", "ouro", "ferro", "hidrogenio", "oxigenio", "simbolo quimico"], nome: "Química", icone: "⚗️", cor: "#13a89e" },
+        { palavras: ["raiz quadrada", "multiplic", "divid", "numero primo", "calculo", "matemat"], nome: "Matemática", icone: "🔢", cor: "#e58a22" },
+        { palavras: ["resistencia eletrica", "frequencia", "movimento", "leis do movimento", "newton", "ohm", "hertz", "eletricidade"], nome: "Física", icone: "⚡", cor: "#e8b923" },
+        { palavras: ["civilizacao", "construiu", "machu picchu", "inca", "maia", "asteca"], nome: "Civilizações", icone: "🗿", cor: "#c66b43" },
+        { palavras: ["ano", "independencia", "queda do muro", "guerra", "revolucao", "imperio", "historia", "declarou"], nome: "História", icone: "🏛️", cor: "#d45d57" },
+        { palavras: ["pintou", "pintura", "mona lisa", "quadro", "artista", "arte"], nome: "Arte", icone: "🎨", cor: "#cf5a9a" },
+        { palavras: ["escreveu", "autor", "romance", "livro", "poeta", "literatura", "dom casmurro", "divina comedia", "pequeno principe"], nome: "Literatura", icone: "📚", cor: "#4388d4" },
+        { palavras: ["capital", "oceano", "continente", "pais", "brasil", "argentina", "egito", "japao", "canada", "islandia", "onde fica"], nome: "Geografia", icone: "🌎", cor: "#27a978" }
+      ];
+      const tema = temas.find((item) =>
+        item.palavras.some((palavra) => textoNormalizado.includes(palavra))
+      ) || { nome: "Conhecimentos gerais", icone: "💡", cor: "#1d9bf0" };
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+          <defs>
+            <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#102947"/>
+              <stop offset="1" stop-color="${tema.cor}"/>
+            </linearGradient>
+            <radialGradient id="brilho">
+              <stop offset="0" stop-color="#ffffff" stop-opacity=".24"/>
+              <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="800" height="450" rx="28" fill="url(#fundo)"/>
+          <circle cx="400" cy="205" r="180" fill="url(#brilho)"/>
+          <circle cx="400" cy="205" r="112" fill="#ffffff" fill-opacity=".09" stroke="#ffffff" stroke-opacity=".28" stroke-width="2"/>
+          <circle cx="400" cy="205" r="143" fill="none" stroke="#ffffff" stroke-opacity=".16" stroke-width="2" stroke-dasharray="5 13"/>
+          <circle cx="135" cy="100" r="5" fill="#ffffff" fill-opacity=".65"/>
+          <circle cx="665" cy="125" r="7" fill="#ffffff" fill-opacity=".55"/>
+          <circle cx="175" cy="325" r="8" fill="#ffffff" fill-opacity=".4"/>
+          <circle cx="635" cy="330" r="5" fill="#ffffff" fill-opacity=".7"/>
+          <text x="400" y="253" text-anchor="middle" font-size="128" font-family="Arial, sans-serif">${tema.icone}</text>
+          <rect x="250" y="370" width="300" height="42" rx="21" fill="#07111f" fill-opacity=".45"/>
+          <text x="400" y="398" text-anchor="middle" fill="#ffffff" font-size="19" font-weight="700" letter-spacing="2" font-family="Arial, sans-serif">${tema.nome}</text>
+        </svg>`;
+
+      return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
     }
 
     function buildPrizeList() {
@@ -639,7 +1083,7 @@
 
       const stats = {
         question: rawQuestion.question?.text || "Pergunta não disponível",
-        image: rawQuestion.image || rawQuestion.img || `https://picsum.photos/seed/${Math.random()}/800/450`,
+        image: gerarImagemPergunta(rawQuestion.question?.text || ""),
         answers: allAnswers
           .map((answer) => String(answer).trim())
           .filter((answer, index, arr) => arr.indexOf(answer) === index)
@@ -710,6 +1154,7 @@ async function traduzirPergunta(pergunta) {
     return {
         ...pergunta,
         question: traducoes[0],
+        image: gerarImagemPergunta(traducoes[0]),
         answers: traducoes.slice(1),
         correctAnswer: traducoes[indiceCorreto + 1]
     };
@@ -770,7 +1215,7 @@ async function traduzirPerguntas(perguntas) {
         correctAnswer,
         answers: [...erradas, correctAnswer].sort(() => Math.random() - 0.5),
         difficulty: "medium",
-        image: `https://picsum.photos/seed/${Math.random()}/800/450`
+        image: gerarImagemPergunta(question)
       }));
     }
 
@@ -846,22 +1291,130 @@ async function traduzirPerguntas(perguntas) {
       elements.roundInfo.textContent = `Pergunta ${state.currentIndex + 1} de ${state.questions.length}`;
       elements.moneyDisplay.textContent = formatMoney(state.safePrize);
       elements.questionImage.src = question.image;
-      elements.questionImage.alt = "Imagem da pergunta";
+      elements.questionImage.alt = `Ilustração relacionada à pergunta: ${question.question}`;
       elements.questionText.textContent = question.question;
 
       const answerOptions = ["A", "B", "C", "D"];
       elements.answers.innerHTML = "";
+      elements.audienceResult.hidden = true;
+      elements.audienceResult.replaceChildren();
+      elements.fiftyFiftyBtn.disabled = state.aidsUsed.fiftyFifty;
+      elements.audienceBtn.disabled = state.aidsUsed.audience;
 
       question.answers.forEach((answer, index) => {
         const button = document.createElement("button");
         button.className = "answer-btn";
         button.type = "button";
+        button.dataset.answer = answer;
         button.innerHTML = `<span class="letter">${answerOptions[index]}</span><span>${answer}</span>`;
         button.addEventListener("click", () => handleAnswer(answer, button));
         elements.answers.appendChild(button);
       });
 
       buildPrizeList();
+    }
+
+    function useFiftyFifty() {
+      if (state.locked || state.aidsUsed.fiftyFifty) return;
+
+      const question = state.questions[state.currentIndex];
+      const incorrectButtons = [...elements.answers.querySelectorAll(".answer-btn")]
+        .filter((button) => button.dataset.answer !== question.correctAnswer);
+
+      if (incorrectButtons.length < 2) {
+        console.error("Não há duas alternativas incorretas para aplicar o 50:50.");
+        elements.audienceResult.textContent = "O 50:50 não está disponível nesta pergunta.";
+        elements.audienceResult.hidden = false;
+        return;
+      }
+
+      for (let index = incorrectButtons.length - 1; index > 0; index--) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [incorrectButtons[index], incorrectButtons[randomIndex]] =
+          [incorrectButtons[randomIndex], incorrectButtons[index]];
+      }
+
+      incorrectButtons.slice(0, 2).forEach((button) => {
+        button.hidden = true;
+      });
+      state.aidsUsed.fiftyFifty = true;
+      elements.fiftyFiftyBtn.disabled = true;
+    }
+
+    function consultAudience() {
+      if (state.locked || state.aidsUsed.audience) return;
+
+      const question = state.questions[state.currentIndex];
+      const availableButtons = [...elements.answers.querySelectorAll(".answer-btn")]
+        .filter((button) => !button.hidden);
+      const correctButton = availableButtons.find(
+        (button) => button.dataset.answer === question.correctAnswer
+      );
+
+      if (!correctButton) {
+        console.error("A resposta correta não está disponível para a votação da plateia.");
+        elements.audienceResult.textContent = "A votação da plateia não está disponível nesta pergunta.";
+        elements.audienceResult.hidden = false;
+        return;
+      }
+
+      const correctWeight = {
+        easy: 7,
+        medium: 4.5,
+        hard: 2.5,
+        extreme: 1.5
+      }[state.selectedDifficulty] || 4;
+      const weights = availableButtons.map((button) =>
+        button === correctButton ? correctWeight : 0.5 + Math.random()
+      );
+      const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+      const exactVotes = weights.map((weight) => (weight / totalWeight) * 100);
+      const percentages = exactVotes.map(Math.floor);
+      const remainingVotes = 100 - percentages.reduce((sum, votes) => sum + votes, 0);
+      const remainderOrder = exactVotes
+        .map((votes, index) => ({ index, fraction: votes - percentages[index] }))
+        .sort((a, b) => b.fraction - a.fraction);
+
+      for (let index = 0; index < remainingVotes; index++) {
+        percentages[remainderOrder[index].index] += 1;
+      }
+
+      const heading = document.createElement("h3");
+      heading.textContent = "Votação da plateia";
+      const votes = document.createElement("div");
+      votes.className = "audience-votes";
+
+      availableButtons.forEach((button, index) => {
+        const letter = button.querySelector(".letter").textContent;
+        const vote = document.createElement("div");
+        vote.className = "audience-vote";
+        vote.setAttribute("aria-label", `${letter}: ${percentages[index]}% dos votos`);
+
+        const label = document.createElement("span");
+        label.className = "audience-vote-letter";
+        label.textContent = letter;
+
+        const track = document.createElement("div");
+        track.className = "audience-vote-track";
+        track.setAttribute("aria-hidden", "true");
+
+        const fill = document.createElement("div");
+        fill.className = "audience-vote-fill";
+        fill.style.width = `${percentages[index]}%`;
+        track.appendChild(fill);
+
+        const percentage = document.createElement("span");
+        percentage.className = "audience-vote-value";
+        percentage.textContent = `${percentages[index]}%`;
+
+        vote.append(label, track, percentage);
+        votes.appendChild(vote);
+      });
+
+      elements.audienceResult.replaceChildren(heading, votes);
+      elements.audienceResult.hidden = false;
+      state.aidsUsed.audience = true;
+      elements.audienceBtn.disabled = true;
     }
 
     function clearTimer() {
@@ -926,6 +1479,10 @@ async function traduzirPerguntas(perguntas) {
         state.safePrize = 0;
         state.currentPrize = 0;
         state.locked = false;
+        state.aidsUsed = {
+          fiftyFifty: false,
+          audience: false
+        };
 
         showScreen("game");
         renderQuestion();
@@ -991,6 +1548,7 @@ async function traduzirPerguntas(perguntas) {
       }
 
       const isCorrect = selectedAnswer !== null && selectedAnswer === correctAnswer;
+      playAnswerSound(isCorrect);
 
       if (isCorrect) {
         state.safePrize = prizeTable[state.currentIndex];
@@ -1048,6 +1606,11 @@ async function traduzirPerguntas(perguntas) {
       elements.startBtn.addEventListener("click", startGame);
       elements.recordBtn.addEventListener("click", openRecord);
       elements.settingsBtn.addEventListener("click", openSettings);
+      elements.soundToggle.addEventListener("click", () => {
+        setSoundEnabled(!state.soundEnabled);
+      });
+      elements.fiftyFiftyBtn.addEventListener("click", useFiftyFifty);
+      elements.audienceBtn.addEventListener("click", consultAudience);
       elements.quitBtn.addEventListener("click", quitGame);
       elements.playAgainBtn.addEventListener("click", startGame);
       elements.backMenuBtn.addEventListener("click", () => {
@@ -1064,6 +1627,8 @@ async function traduzirPerguntas(perguntas) {
       bindEvents();
       setupDifficultyModal();
       renderDifficultyButtons();
+      applyAccessibilitySettings();
+      updateSoundToggle();
       showScreen("menu");
       buildPrizeList();
       elements.moneyDisplay.textContent = formatMoney(0);
